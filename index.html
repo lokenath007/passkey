@@ -24,7 +24,7 @@
   function registerPasskey() {
 
       //check current browser support WebAuthn or not
-      if(IdmWebAuthn.isWebAuthnSupported()){
+      if(IdmWebAuthn.default.isWebAuthnSupported()){
       //instance of IdmWebAuthn
       const webauthn = new IdmWebAuthn()
       webauthn.filter('FILTER_SIGNUP_INIT_ENDPOINT', (endpoint) => {
