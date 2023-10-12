@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Passkey Authentication</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Passkey Authentication</h1>
+        <div id="register-form">
+            <h2>Register</h2>
+            <input type="text" id="user-id" placeholder="User ID">
+            <button onclick="registerPasskey()">Register Passkey</button>
+        </div>
+        <div id="message"></div>
+    </div>
+    <script language="JavaScript" type="Module" src="IdmWebAuthn.js"></script>
+
+
+
+<script>
+  // Register a passkey
+  function registerPasskey() {
+          //import IdmWebAuthn JS SDK
+          //import IdmWebAuthn JS SDK
+      const IdmWebAuthn = import('./IdmWebAuthn.js');
+      //check current browser support WebAuthn or not
+      if(IdmWebAuthn.isWebAuthnSupported()){
+      //instance of IdmWebAuthn
+      const webauthn = new IdmWebAuthn()
+      webauthn.filter('FILTER_SIGNUP_INIT_ENDPOINT', (endpoint) => {
+      const newEndpoint = 'https://yourdomain.com/api/v1/signup/init'
+      return newEndpoint
+      })
+      //register a passkey
+      this.webauthn.register(user_id).then(data => {
+      console.log(data)
+      //continue register flow
+      }).catch(error => {
+      console.log(error, error.code)
+      if(error.code === 'AUTHENTICATOR_CEREMONY_ABORTED'){
+      return
+      }
+      alert(error.message)
+      })
+
+
+
+        // Helper functions for displaying messages and clearing forms
+  function showMessage(message, color = "green") {
+            const messageDiv = document.getElementById("message");
+            messageDiv.style.color = color;
+            messageDiv.textContent = message;
+        }
+
+        function clearForm(formId) {
+            document.getElementById(formId).reset();
+        }
+    } else {
+        alert("WebAuthn is not supported in this browser.");
+    }
+}
+
+</script>
+</body>
+</html>
